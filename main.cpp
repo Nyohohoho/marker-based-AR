@@ -15,5 +15,5 @@ GLFWwindow* window;
 using namespace glm;
 
 int main() {
-
+	
 }

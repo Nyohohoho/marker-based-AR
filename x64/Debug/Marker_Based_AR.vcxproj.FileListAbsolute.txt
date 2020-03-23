@@ -1,0 +1,2 @@
+D:\Code\Marker_Based_AR\x64\Debug\Marker_Based_AR.exe
+D:\Code\Marker_Based_AR\x64\Debug\Marker_Based_AR.pdb
