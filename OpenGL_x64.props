@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>.\OpenGL\freeglut\include;.\OpenGL\glm;.\OpenGL\glfw\include;.\OpenGL\glew\include;$(IncludePath)</IncludePath>
+    <LibraryPath>.\OpenGL\freeglut\lib\x64;.\OpenGL\glfw\lib-vc2019;.\OpenGL\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\OpenGL\freeglut\include;.\OpenGL\glm;.\OpenGL\glfw\include;.\OpenGL\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>.\OpenGL\freeglut\lib\x64;.\OpenGL\glfw\lib-vc2019;.\OpenGL\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;freeglut.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
