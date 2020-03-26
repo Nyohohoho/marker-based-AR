@@ -163,11 +163,10 @@ void MarkerDetection::findMarkerCandidates() {
 		// Approximate to a polygon
 		cv::approxPolyDP(contours[i],
 			approximated_curve,
-			double(contours[i].size()) * 0.05,	// Maximum distance between
-												// the original curve
-												// and its approximation
-			true								// Closed approximated curve
-			);
+			// Maximum distance between the original curve and its approximation
+			double(contours[i].size()) * 0.05,
+			// Closed approximated curve
+			true);
 
 		// Only keep the polygon that contains 4 vertices
 		if (approximated_curve.size() != 4) {
