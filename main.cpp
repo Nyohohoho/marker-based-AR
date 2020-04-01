@@ -1,93 +1,13 @@
-#include <vector>
-#include <stdlib.h>
+#include "parameters.h"
+#include "draw_graphics.h"
+#include <opencv2/opencv.hpp>
+#include <opencv2/aruco.hpp>
 
 #include <GL/glut.h>
 
-#include <opencv2/opencv.hpp>
-
-#include "geometric_types.h"
-#include "marker.h"
-#include "marker_detection.h"
-
-static GLint image_width;
-static GLint image_height;
-static GLubyte* pixeldata;
-
-// Detect markers and estimate their poses
-static MarkerDetection marker_detection;
-
-// Use my PC's internal camera
-static cv::VideoCapture internal_camera;
-// Current frame from the internal camera
-static cv::Mat current_frame;
-
-void display(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// Draw the current frame
-	glDrawPixels(image_width, image_height,
-		GL_BGR_EXT, GL_UNSIGNED_BYTE, pixeldata);
-
-	/*--------------------Draw cubes on detected markers---------------------*/
-	glPushMatrix();
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(marker_detection.getProjectionMatrix());
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	// Make line thicker
-	glLineWidth(3.0f);
-	for (size_t i = 0; i < marker_detection.getDetectedMarkers().size(); i++) {
-		glPushMatrix();
-
-		const Transformation& transformation =
-			marker_detection.getDetectedMarkers()[i].transformation;
-		Matrix44 gl_matrix = transformation.getMat44();
-
-		// Load the camera pose
-		glLoadMatrixf(reinterpret_cast<const GLfloat*>(gl_matrix.data));
-
-		glColor3f(1.0f, 0, 0);
-		glutWireCube(0.75);
-
-		glPopMatrix();
-	}
-	glFlush();
-
-	glPopMatrix();
-	/*---------------------------------End-----------------------------------*/
-
-	glutSwapBuffers();
-}
-
-// Called by OpenGl glutTimerFunc
-// for marker detection and camera pose estimation
-void timer(int) {
-	glutPostRedisplay();
-	glutTimerFunc(10, timer, 0);
-
-	if (internal_camera.read(current_frame)) {
-		marker_detection.setImage(current_frame);
-		marker_detection.detectAndEstimate();
-
-		// Switch between top-left and bottom-left image origin
-		// in order to draw in OpenGL
-		cv::flip(current_frame, current_frame, 0);
-
-		image_width = current_frame.cols;
-		image_height = current_frame.rows;
-		pixeldata = reinterpret_cast<GLubyte*>(current_frame.data);
-	}
-}
-
 int main(int argc, char** argv) {
-	// Open the internal camera
-	internal_camera.open(0);
-	// Set width as 1280 pixels
-	internal_camera.set(3, 1280);
-	// Set height as 720 pixels
-	internal_camera.set(4, 720);
-	
+    initialzeCamera();
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
@@ -99,5 +19,38 @@ int main(int argc, char** argv) {
 
 	glutMainLoop();
 
+	/*
+	cv::VideoCapture inputVideo;
+    inputVideo.open(0);
+    cv::Mat mat_intrinsic_parameters(3, 3, CV_32F,
+        const_cast<float*>(intrinsic_parameters));
+    cv::Mat mat_distortion_coefficients(1, 5, CV_32F,
+        const_cast<float*>(distortion_coefficients));
+    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
+    while (inputVideo.grab()) {
+        cv::Mat image, imageCopy;
+        inputVideo.retrieve(image);
+        image.copyTo(imageCopy);
+        std::vector<int> ids;
+        std::vector<std::vector<cv::Point2f>> corners;
+        cv::aruco::detectMarkers(image, dictionary, corners, ids);
+        // if at least one marker detected
+        if (ids.size() > 0) {
+            cv::aruco::drawDetectedMarkers(imageCopy, corners, ids);
+            cv::Vec3d rvecs, tvecs;
+            // cv::aruco::estimatePoseSingleMarkers(corners, 0.05, mat_intrinsic_parameters, mat_distortion_coefficients, rvecs, tvecs);
+            // draw axis for each marker
+            for (int i = 0; i < ids.size(); i++) {
+                cv::solvePnP(canonical_marker_corners_3d, corners[i], mat_intrinsic_parameters, mat_distortion_coefficients, rvecs, tvecs);
+                cv::aruco::drawAxis(imageCopy, mat_intrinsic_parameters, mat_distortion_coefficients, rvecs, tvecs, 0.5);
+            }
+        }
+        cv::imshow("out", imageCopy);
+        char key = (char)cv::waitKey(30);
+        if (key == 27)
+            break;
+    }
+	*/
+	
 	return 0;
 }
