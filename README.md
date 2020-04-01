@@ -16,4 +16,5 @@ After obtaining the rotation matrix (which is converted from rotation vector) an
 
 ## Demonstration
 The demo is shown as a gif. I simply draw a gray cube and three axes on each markers. Unfortunately, it is obvious that the drawn graphics centers offset from the centers of markers, and I have not found out how to solve this problem...
-![demo](https://github.com/Nyohohoho/marker-based-AR/blob/master/Screenshots/demo.gif)
+![demo1](https://github.com/Nyohohoho/marker-based-AR/blob/master/Screenshots/demo1.gif)
+![demo2](https://github.com/Nyohohoho/marker-based-AR/blob/master/Screenshots/demo2.gif)
