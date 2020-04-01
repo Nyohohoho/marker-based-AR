@@ -6,7 +6,7 @@
 #include <GL/glut.h>
 
 int main(int argc, char** argv) {
-    initialzeCamera();
+	initialzeCamera();
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
