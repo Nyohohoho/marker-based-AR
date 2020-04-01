@@ -22,11 +22,10 @@ void detectMarkersAndEstimatePose(
 	// Detect markers in the image, and store their conrners and ids
 	cv::aruco::detectMarkers(input_image, marker_dictionary,
 		marker_corners, marker_ids);
-	
-	/*
+
+	// Image in grayscale used for cv::cornerSubPix
 	cv::Mat gray_image;
 	cv::cvtColor(input_image, gray_image, cv::COLOR_RGB2GRAY);
-	*/
 
 	size_t num_of_detected_markers = marker_ids.size();
 	// For each marker, estimate their pose by using solvePnP
@@ -39,12 +38,10 @@ void detectMarkersAndEstimatePose(
 			const_cast<float*>(distortion_coefficients));
 
 		// Refine the four corners of each detected marker
-		/*
 		cv::cornerSubPix(gray_image, marker_corners[i],
 			cv::Size(5, 5), cv::Size(-1, -1),
 			cv::TermCriteria(
-				cv::TermCriteria::MAX_ITER | cv::TermCriteria::EPS, 30, 0.01));
-		*/
+				cv::TermCriteria::MAX_ITER | cv::TermCriteria::EPS, 80, 0.01));
 
 		// Estimate pose of a marker
 		cv::solvePnP(canonical_marker_corners_3d, marker_corners[i],
