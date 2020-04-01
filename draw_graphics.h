@@ -18,7 +18,7 @@ static cv::Mat current_frame;
 // 4x4 Projection matrix of current frame
 static float projection_matrix[16];
 //
-static std::vector<cv::Mat_<double>> all_camera_poses;
+static std::vector<cv::Mat_<double>> all_marker_poses;
 
 // Initialzie my PC's internal camera
 void initialzeCamera();

@@ -74,14 +74,14 @@ void display(void) {
 	// Make line thicker
 	glLineWidth(3.0f);
 
-	size_t num_of_marker = all_camera_poses.size();
+	size_t num_of_marker = all_marker_poses.size();
 	for (size_t i = 0; i < num_of_marker; i++) {
 		glPushMatrix();
 
-		cv::Mat_<float> current_camera_pose = all_camera_poses[i].clone();
+		cv::Mat_<float> current_marker_pose = all_marker_poses[i].clone();
 		// Load the camera pose
 		glLoadMatrixf(
-			reinterpret_cast<const GLfloat*>(current_camera_pose.data));
+			reinterpret_cast<const GLfloat*>(current_marker_pose.data));
 
 		glColor3f(1.0f, 0.0f, 0.0f); // Red X-axis
 		glBegin(GL_LINES);
@@ -120,7 +120,7 @@ void timer(int) {
 	glutTimerFunc(10, timer, 0);
 
 	if (internal_camera.read(current_frame)) {
-		detectMarkersAndEstimatePose(current_frame, all_camera_poses);
+		detectMarkersAndEstimatePose(current_frame, all_marker_poses);
 
 		// Switch between top-left and bottom-left image origin
 		// in order to draw in OpenGL

@@ -11,9 +11,9 @@
 // Give out a list of 4x4 transformation matrices (rotation + translation)
 void detectMarkersAndEstimatePose(
 	const cv::Mat& input_image,
-	std::vector<cv::Mat_<double>>& output_camera_poses) {
-	if (!output_camera_poses.empty()) {
-		output_camera_poses.clear();
+	std::vector<cv::Mat_<double>>& output_marker_poses) {
+	if (!output_marker_poses.empty()) {
+		output_marker_poses.clear();
 	}
 
 	// A list of Marker corners in 2D
@@ -52,19 +52,19 @@ void detectMarkersAndEstimatePose(
 		cv::Mat_<double> rotation_matrix;
 		cv::Rodrigues(rotation_vector, rotation_matrix);
 
-		cv::Mat_<double> camera_pose(4, 4);
+		cv::Mat_<double> marker_pose(4, 4);
 		// Since solvePnP finds camera location, w.r.t marker pose,
 		// to get marker pose w.r.t the camera,
 		// transformation matrix must be inverted.
 		for (uchar j = 0; j < 3; j++) {
 			for (uchar k = 0; k < 3; k++) {
-				camera_pose(j, k) = rotation_matrix(k, j);
+				marker_pose(j, k) = rotation_matrix(k, j);
 			}
-			camera_pose(3, j) = -translation_vector(j);
-			camera_pose(j, 3) = 0.0f;
+			marker_pose(3, j) = -translation_vector(j);
+			marker_pose(j, 3) = 0.0f;
 		}
-		camera_pose(3, 3) = 1.0f;
+		marker_pose(3, 3) = 1.0f;
 		
-		output_camera_poses.push_back(camera_pose);
+		output_marker_poses.push_back(marker_pose);
 	}
 }

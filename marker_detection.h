@@ -9,7 +9,7 @@
 // Give out a list of 4x4 transformation matrices (rotation + translation)
 void detectMarkersAndEstimatePose(
 	const cv::Mat& input_image,
-	std::vector<cv::Mat_<double>>& output_camera_poses);
+	std::vector<cv::Mat_<double>>& output_marker_poses);
 
 
 #endif // !MARKER_DETECTION
