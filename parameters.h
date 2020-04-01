@@ -8,8 +8,6 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
 
-#define MARKER_SIZE 0.026
-
 // The intrinsic parameters of my PC's internal camera (3x3 matrix)
 static const float intrinsic_parameters[9] = {
 	9.4721585489646418e+02f, 0.0f, 6.5256929713596503e+02f,
@@ -24,14 +22,6 @@ static const float distortion_coefficients[5] = {
 };
 
 // The canonical coordinates of 4 corners of a marker in 3D space
-/*
-static const std::vector<cv::Point3f> canonical_marker_corners_3d = {
-	cv::Point3f(-MARKER_SIZE / 2.0f, -MARKER_SIZE / 2.0f, 0),
-	cv::Point3f(+MARKER_SIZE / 2.0f, -MARKER_SIZE / 2.0f, 0),
-	cv::Point3f(+MARKER_SIZE / 2.0f, +MARKER_SIZE / 2.0f, 0),
-	cv::Point3f(-MARKER_SIZE / 2.0f, +MARKER_SIZE / 2.0f, 0)
-};
-*/
 static const std::vector<cv::Point3f> canonical_marker_corners_3d = {
 	cv::Point3f(-0.5f, -0.5f, 0), cv::Point3f(+0.5f, -0.5f, 0),
 	cv::Point3f(+0.5f, +0.5f, 0), cv::Point3f(-0.5f, +0.5f, 0)
