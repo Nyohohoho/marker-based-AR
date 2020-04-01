@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{36551508-97F6-4A9A-831F-71CA28559780}</ProjectGuid>
+    <ProjectGuid>{24AA47A0-2208-44B1-B180-D6308343C717}</ProjectGuid>
     <RootNamespace>MarkerBasedAR</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -64,13 +64,13 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="OpenGL_x64.props" />
-    <Import Project="OpenCV_Debug_x64.props" />
+    <Import Project="..\..\OpenGL\vsproperties\OpenGL_x64.props" />
+    <Import Project="..\..\OpenCV\vsproperties\OpenCV_Debug_x64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="OpenGL_x64.props" />
-    <Import Project="OpenCV_Release_x64.props" />
+    <Import Project="..\..\OpenGL\vsproperties\OpenGL_x64.props" />
+    <Import Project="..\..\OpenCV\vsproperties\OpenCV_Release_x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -142,15 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="geometric_types.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="marker.cpp" />
-    <ClCompile Include="marker_detection.cpp" />
+    <ClInclude Include="draw_graphics.h" />
+    <ClInclude Include="marker_detection.h" />
+    <ClInclude Include="parameters.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="geometric_types.h" />
-    <ClInclude Include="marker.h" />
-    <ClInclude Include="marker_detection.h" />
+    <ClCompile Include="draw_graphics.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="marker_detection.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
