@@ -9,9 +9,9 @@
 // If fail, return false
 bool loadPly(
 	const std::string& input_filename,
-	std::vector<float>& output_vertices,
-	std::vector<int>& output_face_indices) {
-	std::ifstream read_file(input_filename);
+	std::vector<glm::vec3>& output_vertices) {
+	// Use a stream to read ply file
+	std::ifstream read_file(input_filename, std::ios::in);
 
 	// If faill to open the file, return false
 	if (!read_file.is_open()) {
@@ -22,15 +22,12 @@ bool loadPly(
 	if (!output_vertices.empty()) {
 		output_vertices.clear();
 	}
-	// If the output vector is not empty, clear it
-	if (!output_face_indices.empty()) {
-		output_face_indices.clear();
-	}
 
 	// Used to record the header in ply file
 	std::string header;
 	// Used to recorder the number of vertex and the number of face
-	size_t num_of_vertex, num_of_face;
+	size_t num_of_vertex = 0;
+	size_t num_of_face = 0;
 	while (!read_file.eof()) {
 		// Read the first header of a line
 		read_file >> header;
@@ -73,39 +70,48 @@ bool loadPly(
 			std::string line;
 			std::getline(read_file, line);
 
-			float vertex_info;
-			for (size_t i = 0; i < num_of_vertex; i++) {
-				// x-coordinate
-				read_file >> vertex_info;
-				output_vertices.push_back(vertex_info);
-				// y-coordinate
-				read_file >> vertex_info;
-				output_vertices.push_back(vertex_info);
-				// z-coordinate
-				read_file >> vertex_info;
-				output_vertices.push_back(vertex_info);
+			// Store the coordinates of vertex
+			std::vector<glm::vec3> vertex_coordinates;
+			// The index indicates the vertex that a face has
+			std::vector<int> face_vertex_index;
 
-				// confidence (not needed)
-				read_file >> vertex_info;
-				// intensity (not needed)
-				read_file >> vertex_info;
+			for (size_t i = 0; i < num_of_vertex; i++) {
+				float vertex_x, vertex_y, vertex_z;
+				// x-coordinate
+				read_file >> vertex_x;
+				// y-coordinate
+				read_file >> vertex_y;
+				// z-coordinate
+				read_file >> vertex_z;
+
+				vertex_coordinates.push_back(glm::vec3(
+					vertex_x, vertex_y, vertex_z));
+
+				// confidence and intensity are not needed
+				// so skip them and go to next line
+				std::getline(read_file, line);
 			}
 
-			int face_info;
+			size_t face_info;
 			for (size_t i = 0; i < num_of_face; i++) {
 				// the number of vertex in one face
 				read_file >> face_info;
 				if (face_info == 3) {
 					// vertex index 1
 					read_file >> face_info;
-					output_face_indices.push_back(face_info);
+					face_vertex_index.push_back(face_info);
 					// vertex index 2
 					read_file >> face_info;
-					output_face_indices.push_back(face_info);
+					face_vertex_index.push_back(face_info);
 					// vertex index 3
 					read_file >> face_info;
-					output_face_indices.push_back(face_info);
+					face_vertex_index.push_back(face_info);
 				}
+			}
+
+			for (size_t i = 0; i < face_vertex_index.size(); i++) {
+				size_t current_index = face_vertex_index[i];
+				output_vertices.push_back(vertex_coordinates[current_index]);
 			}
 
 			// finish reading and succeed
@@ -115,3 +121,4 @@ bool loadPly(
 
 	return false;
 }
+
