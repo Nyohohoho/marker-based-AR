@@ -117,11 +117,151 @@ bool loadPly(
 				output_vertices.push_back(vertex_coordinates[current_index]);
 			}
 
+			read_file.close();
 			// finish reading and succeed
 			return true;
 		}
 	}
 
+	read_file.close();
+	return false;
+}
+
+// Load obj file
+// If succeed, give all the vertices and normals, and return true
+// If fail, return false
+bool loadObj(
+	const std::string& input_filename,
+	std::vector<glm::vec3>& output_vertices,
+	std::vector<glm::vec3>& output_normals) {
+	// Use a stream to read ply file
+	std::ifstream read_file(input_filename, std::ios::in);
+
+	// If faill to open the file, return false
+	if (!read_file.is_open()) {
+		return false;
+	}
+
+	// If the output vector is not empty, clear it
+	if (!output_vertices.empty()) {
+		output_vertices.clear();
+	}
+	if (!output_normals.empty()) {
+		output_normals.clear();
+	}
+
+	// Used to record the header in ply file
+	std::string header;
+	// Used to recorder the number of vertex and the number of face
+	size_t num_of_vertex = 0;
+	size_t num_of_face = 0;
+	// Store the coordinates of normal
+	std::vector<glm::vec3> normal_coordinates;
+	// Store the coordinates of vertex
+	std::vector<glm::vec3> vertex_coordinates;
+	// The index indicates the normal that a face has
+	std::vector<int> face_normal_index;
+	// The index indicates the vertex that a face has
+	std::vector<int> face_vertex_index;
+
+	while (!read_file.eof()) {
+		// Read the first header of a line
+		read_file >> header;
+
+		// If the header indicates "#", skip
+		if (header == "#") {
+			// Skip and go to next line
+			std::string line;
+			std::getline(read_file, line);
+			continue;
+		}
+
+		// If the header indicates "vn", it means normal
+		if (header == "vn") {
+			float normal_x, normal_y, normal_z;
+			// x-coordinate
+			read_file >> normal_x;
+			// y-coordinate
+			read_file >> normal_y;
+			// z-coordinate
+			read_file >> normal_z;
+
+			normal_coordinates.push_back(glm::vec3(
+				normal_x, normal_y, normal_z));
+
+			// Skip the rest and go to next line
+			std::string line;
+			std::getline(read_file, line);
+			continue;
+		}
+
+		// If the header indicates "v", it means vertex
+		if (header == "v") {
+			float vertex_x, vertex_y, vertex_z;
+			// x-coordinate
+			read_file >> vertex_x;
+			// y-coordinate
+			read_file >> vertex_y;
+			// z-coordinate
+			read_file >> vertex_z;
+
+			vertex_coordinates.push_back(glm::vec3(
+				vertex_x, vertex_y, vertex_z));
+
+			// Skip the rest and go to next line
+			std::string line;
+			std::getline(read_file, line);
+			continue;
+		}
+
+		// If the header indicates "f", it means face index
+		if (header == "f") {
+			int face_normal_x, face_normal_y, face_normal_z;
+			int face_vertex_x, face_vertex_y, face_vertex_z;
+			// Used to skip "//"
+			char character;
+
+			read_file >> face_normal_x;
+			face_normal_index.push_back(face_normal_x);
+			read_file >> character >> character;
+			read_file >> face_vertex_x;
+			face_vertex_index.push_back(face_vertex_x);
+
+			read_file >> face_normal_y;
+			face_normal_index.push_back(face_normal_y);
+			read_file >> character >> character;
+			read_file >> face_vertex_y;
+			face_vertex_index.push_back(face_vertex_y);
+
+			read_file >> face_normal_z;
+			face_normal_index.push_back(face_normal_z);
+			read_file >> character >> character;
+			read_file >> face_vertex_z;
+			face_vertex_index.push_back(face_vertex_z);
+
+			// Skip the rest and go to next line
+			std::string line;
+			std::getline(read_file, line);
+			continue;
+		}
+	}
+
+	for (size_t i = 0; i < face_normal_index.size(); i++) {
+		size_t current_index = face_normal_index[i] - 1;
+		output_normals.push_back(normal_coordinates[current_index]);
+	}
+
+	for (size_t i = 0; i < face_vertex_index.size(); i++) {
+		size_t current_index = face_vertex_index[i] - 1;
+		output_vertices.push_back(vertex_coordinates[current_index]);
+	}
+
+	if (!output_normals.empty() && !output_vertices.empty()) {
+		read_file.close();
+		return true;
+	}
+
+	read_file.close();
 	return false;
 }
 
