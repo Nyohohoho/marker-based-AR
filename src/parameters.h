@@ -8,6 +8,9 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
 
+// The length of marker is 0.05 meters
+#define MARKER_LENGTH 0.05f
+
 // The intrinsic parameters of my PC's internal camera (3x3 matrix)
 static const float intrinsic_parameters[9] = {
 	9.4721585489646418e+02f, 0.0f, 6.5256929713596503e+02f,

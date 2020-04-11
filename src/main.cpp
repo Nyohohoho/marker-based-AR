@@ -86,9 +86,12 @@ int main() {
 			// the bunny will sit on top of the marker
 			// Scaling is to shrink the size of the bunny
 			glm::mat4 model =
-				glm::rotate(glm::mat4(), glm::radians(90.0f), rotation_axis) *
-				glm::translate(glm::mat4(), glm::vec3(0.0f, -0.04f, 0.0f)) *
-				glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+				glm::rotate(glm::mat4(),
+					glm::radians(90.0f), rotation_axis) *
+				glm::translate(glm::mat4(),
+					glm::vec3(0.0f, -MARKER_LENGTH, 0.0f)) *
+				glm::scale(glm::mat4(),
+					glm::vec3(0.5f, 0.5f, 0.5f));
 			size_t num_of_marker = all_marker_poses.size();
 			for (size_t i = 0; i < num_of_marker; i++) {
 				cv::Mat current_marker_pose = all_marker_poses[i];

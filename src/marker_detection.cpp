@@ -7,9 +7,6 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
 
-// The length of marker is 0.05 meters
-#define MARKER_LENGTH 0.05f
-
 // Give out a list of 4x4 transformation matrices (rotation + translation)
 void detectMarkersAndEstimatePose(
 	const cv::Mat& input_image,
