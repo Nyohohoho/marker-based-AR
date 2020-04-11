@@ -41,21 +41,22 @@ int main() {
 		"background_vertex_shader.vert",
 		"background_fragment_shader.frag");
 
-	// Load the shaders for drawing the bunny with color of crimson
-	GLuint color_shader_id = loadShaders(
-		"color_vertex_shader.vert",
-		"color_fragment_shader.frag");
-
 	// Load the shaders for drawing the bunny with specular shading
 	GLuint shading_shader_id = loadShaders(
 		"shading_vertex_shader.vert",
 		"shading_fragment_shader.frag");
 
+	/** ply file only contains the information about vertices
+	  * so the following code only create a bunny with color of red-blue
+	GLuint color_shader_id = loadShaders(
+		"color_vertex_shader.vert",
+		"color_fragment_shader.frag");
 	std::vector<glm::vec3> color_bunny_vertices;
-	loadPly("../model/bun_zipper_res4.ply", color_bunny_vertices);
+	oadPly("Model/bun_zipper_res4.ply", color_bunny_vertices);
+	*/
 
 	std::vector<glm::vec3> shading_bunny_vertices, shading_bunny_normals;
-	loadObj("../model/bun_zipper.obj",
+	loadObj("Model/bun_zipper.obj",
 		shading_bunny_vertices, shading_bunny_normals);
 
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
@@ -99,17 +100,17 @@ int main() {
 					reinterpret_cast<GLfloat*>(
 						current_marker_pose.data));
 
-				if (i % 2 == 1) {
-					drawColorBunny(
-						color_bunny_vertices,
-						model, view, projection,
-						color_shader_id);
-				} else {
-					drawShadingBunny(
-						shading_bunny_vertices, shading_bunny_normals,
-						model, view, projection,
-						shading_shader_id);
-				}
+				/** This is the code for drawing color bunny
+				drawColorBunny(
+					color_bunny_vertices,
+					model, view, projection,
+					color_shader_id);
+				*/
+
+				drawShadingBunny(
+					shading_bunny_vertices, shading_bunny_normals,
+					model, view, projection,
+					shading_shader_id);
 			}
 
 			glfwSwapBuffers(window);
