@@ -55,3 +55,12 @@ At the beginning, I was planning to render the bunny in ***ply*** file with spec
 Also, when doing AR, the frame or image captured by camera should be rendered by ***OpenGL***. I treated the frame as a texture and mapped it to (-1, -1, 0), (-1, +1, 0), (+1, -1, 0), (+1, +1, 0).
 
 ## Demonstration
+<p align="center">
+  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/one_bunny_rotation.gif" height="300">
+  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/one_bunny_translation.gif" height="300">
+</p>
+
+<p align="center">
+  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/four_bunnies.png" height="300">
+  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/many_bunnies.png" height="300">
+</p>
