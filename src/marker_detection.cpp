@@ -43,6 +43,14 @@ void detectMarkersAndEstimatePose(
 		// Use marker length to standardize translation
 		translation_vector = MARKER_LENGTH * translation_vector;
 
+		// Invert y-axis and z-axis to
+		// make the camera rotation become marker rotation
+		cv::Mat camera2marker = cv::Mat::zeros(3, 3, CV_64F);
+		camera2marker.at<double>(0, 0) = 1.0;
+		camera2marker.at<double>(1, 1) = -1.0;
+		camera2marker.at<double>(2, 2) = -1.0;
+		rotation_matrix = rotation_matrix * camera2marker;
+
 		// Store the poses
 		cv::Mat marker_pose = cv::Mat::zeros(4, 4, CV_32F);
 		for (uchar row = 0; row < 3; row++) {
@@ -55,11 +63,19 @@ void detectMarkersAndEstimatePose(
 			}
 			// Invert the y-axis and z-axis in order to use in OpenGL
 			marker_pose.at<float>(row, 3) =
-				row == 0 ?
-				static_cast<float>(translation_vector(row)) :
-				-static_cast<float>(translation_vector(row));
+				static_cast<float>(translation_vector(row));
 		}
 		marker_pose.at<float>(3, 3) = 1.0f;
+
+		// Convert the poses for the use of OpenGL
+		cv::Mat cv2gl = cv::Mat::zeros(4, 4, CV_32F);
+		cv2gl.at<float>(0, 0) = 1.0f;
+		// Invert the y-axis
+		cv2gl.at<float>(1, 1) = -1.0f;
+		// Invert the z-axis
+		cv2gl.at<float>(2, 2) = -1.0f;
+		cv2gl.at<float>(3, 3) = 1.0f;
+		marker_pose = cv2gl * marker_pose;
 
 		// Column is the priority in OpenGL, so transpose it
 		cv::transpose(marker_pose, marker_pose);
@@ -130,6 +146,7 @@ void detectArucoMarkers(
 		cv2gl.at<float>(2, 2) = -1.0f;
 		cv2gl.at<float>(3, 3) = 1.0f;
 		marker_pose = cv2gl * marker_pose;
+
 		// Column is the priority in OpenGL, so transpose it
 		cv::transpose(marker_pose, marker_pose);
 

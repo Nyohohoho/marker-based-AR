@@ -52,11 +52,11 @@ int main() {
 		"color_vertex_shader.vert",
 		"color_fragment_shader.frag");
 	std::vector<glm::vec3> color_bunny_vertices;
-	loadPly("../model/bun_zipper_res4.ply", color_bunny_vertices);
+	loadPly("Model/bun_zipper_res4.ply", color_bunny_vertices);
 	*/
 
 	std::vector<glm::vec3> shading_bunny_vertices, shading_bunny_normals;
-	loadObj("../model/bun_zipper.obj",
+	loadObj("Model/bun_zipper.obj",
 		shading_bunny_vertices, shading_bunny_normals);
 
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
