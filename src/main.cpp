@@ -52,7 +52,7 @@ int main() {
 		"color_vertex_shader.vert",
 		"color_fragment_shader.frag");
 	std::vector<glm::vec3> color_bunny_vertices;
-	oadPly("../model/bun_zipper_res4.ply", color_bunny_vertices);
+	loadPly("../model/bun_zipper_res4.ply", color_bunny_vertices);
 	*/
 
 	std::vector<glm::vec3> shading_bunny_vertices, shading_bunny_normals;
