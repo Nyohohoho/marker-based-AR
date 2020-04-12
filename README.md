@@ -43,7 +43,7 @@ Here, I met the first problem. The two poses estimated by these two functions ar
 
 Moreover, the translation vector should be multiplied by **marker length**. I guess the translation vector actually has the form: "tvec/MARKER_LENGTH", but I don't understand it exactly. Here is the second problem.
 
-**If you know anything about these two problems, please tell me!**
+**Although I successfully implemented this program, yet I still don't know well about these two problems. If you know anything, please tell me!**
 
 ## Graphics
 At the beginning, I was planning to render the bunny in ***ply*** file with specular shading effect. However, ***ply*** file does not contain information about normals. Although normals can be computed from vertices, it is very cubersome to compute in runtime. So, I used meshlab to export a bunny in ***obj*** file where normals information has been included. Therefore, I wanted to render a bunny in ***obj*** file with specular shading effect and a bunny in ***ply*** file with red-blue color. The shading effect is simply created by the modification of [**OpenGL Tutorial 8**](http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/).
