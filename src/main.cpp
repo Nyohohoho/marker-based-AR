@@ -88,7 +88,7 @@ int main() {
 			// Scaling is to shrink the size of the bunny
 			glm::mat4 model =
 				glm::rotate(glm::mat4(),
-					glm::radians(90.0f), rotation_axis) *
+					glm::radians(89.0f), rotation_axis) *
 				glm::translate(glm::mat4(),
 					glm::vec3(0.0f, -MARKER_LENGTH, 0.0f)) *
 				glm::scale(glm::mat4(),
