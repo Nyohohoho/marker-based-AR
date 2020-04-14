@@ -343,7 +343,7 @@ void drawShadingBunny(
 	glUniformMatrix4fv(model_matrix_id, 1, GL_FALSE, &model_matrix[0][0]);
 	glUniformMatrix4fv(view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
 
-	glm::vec3 lightPos = glm::vec3(4, 4, 4);
+	glm::vec3 lightPos = glm::vec3(-3, -4, 1);
 	glUniform3f(light_id, lightPos.x, lightPos.y, lightPos.z);
 
 	// 1st attribute buffer : vertices
