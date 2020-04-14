@@ -52,11 +52,11 @@ int main() {
 		"color_vertex_shader.vert",
 		"color_fragment_shader.frag");
 	std::vector<glm::vec3> color_bunny_vertices;
-	loadPly("Model/bun_zipper_res4.ply", color_bunny_vertices);
+	loadPly("../model/bun_zipper_res4.ply", color_bunny_vertices);
 	*/
 
 	std::vector<glm::vec3> shading_bunny_vertices, shading_bunny_normals;
-	loadObj("Model/bun_zipper.obj",
+	loadObj("../model/bun_zipper.obj",
 		shading_bunny_vertices, shading_bunny_normals);
 
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
@@ -89,11 +89,8 @@ int main() {
 			glm::mat4 model =
 				glm::rotate(glm::mat4(),
 					glm::radians(89.0f), rotation_axis) *
-				glm::translate(glm::mat4(),
-					glm::vec3(0.0f, -MARKER_LENGTH, 0.0f)) *
 				glm::scale(glm::mat4(),
 					glm::vec3(0.5f, 0.5f, 0.5f));
-			size_t num_of_marker = all_marker_poses.size();
 			for (size_t i = 0; i < num_of_marker; i++) {
 				cv::Mat current_marker_pose = all_marker_poses[i];
 				glm::mat4 view = glm::make_mat4(
