@@ -39,7 +39,13 @@ However, when I tried to do inversion on the pose estimated by ***solvePnP***, i
 
 The figure on the left is the pose estimated by ***solvePnP***, and the figure on the right is the pose estimated by ***estimatePoseSingleMarkers***. Red line is x-axis, green line is y-axis, and blue line is z-axis.
 
-Here, I met the first problem. The rotation matrices of the two poses estimated by these two functions are opposite to each other in the second column and the third column (math explanation: column 2 and 3 of rotation matrix A = -column 2 and 3 of B). According to the documents of ***OpenCV***, both of these two functions give the camera pose that transforms points from each marker coordinate system to the camera coordinate system. In practice, if the second and third column of the rotation matrix estimated by ***solvePnP*** are not negated, the graphics drawn on marker rotates in opposite direction as the marker does. For example, if the marker is rotated to left, then the graphics will be rotated to right. I still have not figured out why this should be done.
+Here, I met the first problem. The rotation matrices of the two poses estimated by these two functions are opposite to each other in the second column and the third column. See the following figure for an example.
+
+<p align="center">
+  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/figures/matrices.png" width="1200">
+</p>
+
+According to the documents of ***OpenCV***, both of these two functions give the camera pose that transforms points from each marker coordinate system to the camera coordinate system. So, I still have not found out why they have this difference.
 
 Moreover, the translation vector should be multiplied by **marker length**. I guess the translation vector actually has the form: "tvec/MARKER_LENGTH", but I don't understand it exactly. Here is the second problem.
 
@@ -56,11 +62,5 @@ Also, when doing AR, the frame or image captured by camera should be rendered by
 
 ## Demonstration
 <p align="center">
-  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/one_bunny_rotation.gif" height="300">
-  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/one_bunny_translation.gif" height="300">
-</p>
-
-<p align="center">
-  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/four_bunnies.png" height="300">
-  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/many_bunnies.png" height="300">
+  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/bunny.png" height="600">
 </p>
