@@ -29,7 +29,7 @@ Although camera pose of each marker has been obtained by ***solvePnP***, it is s
 
 As shown in the figure above, the orientations of y-axis and z-axis are different. In order to apply the pose obtained by ***OpenCV*** to ***OpenGL***, y-axis and z-axis should be inverted. What's more, the matrix in ***OpenGL*** uses **column** as priority and the matrix ***OpenCV*** uses **row** as priority. So, the pose should also be transposed.
 
-### Unsolved Problems
+### Some Problems
 However, when I tried to do inversion on the pose estimated by ***solvePnP***, it did not work! Hence, I also tried to use the function ***estimatePoseSingleMarkers*** in ***ArUco Library*** to obtain pose of each marker, and it worked perfectly. So I drew the axes in order to see what was wrong.
 
 <p align="center">
@@ -45,9 +45,9 @@ Here, I met the first problem. The rotation matrices of the two poses estimated 
   <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/figures/matrices.png" width="1200">
 </p>
 
-According to the documents of ***OpenCV***, both of these two functions give the camera pose that transforms points from each marker coordinate system to the camera coordinate system. So, I still have not found out why they have this difference.
+According to the documents of ***OpenCV***, both of these two functions give the camera pose that transforms points from each marker coordinate system to the camera coordinate system. Based on that, I guess they differ from the direction. ***solvePnP*** returns the camera pose that camera looks at marker, while ***estimatePoseSingleMarkers*** returns the marker pose that camera looks at camera. So, in order to render graphics on marker, marker pose is needed.
 
-Moreover, the translation vector should be multiplied by **marker length**. I guess the translation vector actually has the form: "tvec/MARKER_LENGTH", but I don't understand it exactly. Here is the second problem.
+Moreover, the translation vector should be multiplied by **marker length**. Here is the second problem. I guess the translation vector actually has the form: "tvec/MARKER_LENGTH".
 
 **Although I successfully implemented this program, yet I still don't know well about these two problems. If you know anything, please tell me!**
 
