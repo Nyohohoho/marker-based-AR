@@ -20,5 +20,11 @@ void detectArucoMarkers(
 	const cv::Mat& input_image,
 	std::vector<cv::Mat>& output_marker_poses);
 
+// Use the chessborad with width 6 and height 4 as marker
+// Return a list of 4x4 transformation matrices (rotation + translation)
+void detctChessboardAndEstimatePose(
+	const cv::Mat& input_image,
+	std::vector<cv::Mat>& output_marker_poses
+	);
 
 #endif // !MARKER_DETECTION
