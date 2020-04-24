@@ -5,6 +5,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
@@ -22,6 +23,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 int main() {
+	std::string selection;
+	std::cout << "Select to use a kind of marker" << std::endl;
+	std::cout << "A: ArUco Marker" << std::endl;
+	std::cout << "B: Chessboard" << std::endl;
+	std::cin >> selection;
+
 	// Use my PC's internal camera
 	// Open the internal camera
 	cv::VideoCapture internal_camera(0);
@@ -63,13 +70,24 @@ int main() {
 		!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		std::clock_t start_time, finish_time;
+		start_time = std::clock();
 		if (internal_camera.read(current_frame)) {
 			// Convert BGR to RGB
 			cv::cvtColor(current_frame, current_frame, cv::COLOR_BGR2RGB);
 
 			// Record the poses of the markers
 			std::vector<cv::Mat> all_marker_poses;
-			detectMarkersAndEstimatePose(current_frame, all_marker_poses);
+			if (selection == "A") {
+				detectMarkersAndEstimatePose(
+					current_frame,
+					all_marker_poses);
+			}
+			if (selection == "B") {
+				detctChessboardAndEstimatePose(
+					current_frame,
+					all_marker_poses);
+			}
 			// Switch the image origin from top-left to bottom-left image
 			// in order to draw in OpenGL
 			cv::flip(current_frame, current_frame, 0);
@@ -91,6 +109,7 @@ int main() {
 					glm::radians(89.0f), rotation_axis) *
 				glm::scale(glm::mat4(),
 					glm::vec3(0.5f, 0.5f, 0.5f));
+			size_t num_of_marker = all_marker_poses.size();
 			for (size_t i = 0; i < num_of_marker; i++) {
 				cv::Mat current_marker_pose = all_marker_poses[i];
 				glm::mat4 view = glm::make_mat4(
@@ -110,9 +129,18 @@ int main() {
 					shading_shader_id);
 			}
 
+			finish_time = std::clock();
+
+			double duration = static_cast<double>(finish_time - start_time);
+			std::cout << "time: " << duration << " ms" << std::endl;
+
 			glfwSwapBuffers(window);
 		}
 	}
+
+	glDeleteProgram(background_shader_id);
+	glDeleteProgram(shading_shader_id);
+	// glDeleteProgram(color_shader_id);
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
