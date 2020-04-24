@@ -61,6 +61,12 @@ At the beginning, I was planning to render the bunny in ***ply*** file with spec
 Also, when doing AR, the frame or image captured by camera should be rendered by ***OpenGL***. I treated the frame as a texture and mapped it to (-1, -1, 0), (-1, +1, 0), (+1, -1, 0), (+1, +1, 0).
 
 ## Demonstration
+This is the case of **ArUco markers**. The runtime is about 100 ms for rendering on one marker.
 <p align="center">
   <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/bunny.png" height="600">
+</p>
+
+This is the case of **Chessboard**. The runtime is about 1000 ms for rendering on one marker.
+<p align="center">
+  <img src="https://github.com/Nyohohoho/marker-based-AR/blob/master/screenshots/bunny_on_chessboard.png" height="600">
 </p>
